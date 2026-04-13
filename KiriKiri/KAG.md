@@ -1,0 +1,1 @@
+Very popular, used in thousands of games. Assets are stored in XP3 archives, and scripts (`.ks`) are in a human-readable format.
