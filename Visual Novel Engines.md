@@ -1,6 +1,22 @@
 
-| Engine                                                    | Company       | File Extensions            |
-| --------------------------------------------------------- | ------------- | -------------------------- |
-| [μ-GameOperationSystem](engines/μ-GameOperationSystem.md) | Mink          | `nme`, `det`, `atm`, `at2` |
-| [AGSD](engines/AGSD.md)                                   | Nicotine Soft | `gsp`                      |
-| [KiriKiri](engines/KiriKiri.md)                           | *various*     | `xp3`                      |
+| Engine                                                    | Company               | File Extensions            | Notes                                                                                                            |
+| --------------------------------------------------------- | --------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| [μ-GameOperationSystem](engines/μ-GameOperationSystem.md) | Mink                  | `nme`, `det`, `atm`, `at2` |                                                                                                                  |
+| [AGSD](engines/AGSD.md)                                   | Nicotine Soft         | `gsp`                      |                                                                                                                  |
+| Artemis                                                   |                       |                            |                                                                                                                  |
+| Digital Novel Markup Language (DNML)                      | *free*                |                            | [Archived Homepage](https://web.archive.org/web/20001002065809/http://hp.vector.co.jp/authors/VA015183/)         |
+| Ethornell (BGI)                                           | Buriko                |                            | [Homepage](https://www.buriko.jp/index.html)                                                                     |
+| Godot                                                     |                       |                            | General purpose engine.                                                                                          |
+| [KiriKiri](engines/KiriKiri.md)                           | *open source*         | `xp3`                      |                                                                                                                  |
+| LiveMaker                                                 | *free*                |                            | [Homepage](https://livemaker.net/)                                                                               |
+| NScripter                                                 | *free*                |                            |                                                                                                                  |
+| NVList                                                    | *open source*         |                            | [Github](https://github.com/anonl/nvlist)                                                                        |
+| ONScripter                                                | *open source (GPLv2)* |                            | [Github](https://github.com/ogapee/onscripter). Plays NScripter games.                                           |
+| Ren'Py                                                    | *open source*         |                            | [Homepage](https://www.renpy.org/)                                                                               |
+| RPG Maker                                                 |                       |                            |                                                                                                                  |
+| Shiina Rio                                                | WillPlus              |                            |                                                                                                                  |
+| Suika2                                                    | *open source*         |                            | [Github](https://github.com/suika2engine/suika2)                                                                 |
+| System-NNN                                                |                       |                            | [Homepage](https://www2s.biglobe.ne.jp/~tinyan/nyanlib/index.htm), [Github](https://github.com/tinyan/SystemNNN) |
+| TyranoBuilder                                             | STRIKEWORKS           | `xp3`                      | [Archived Homepage](https://web.archive.org/web/20220409231907/https://tyranobuilder.com/)                       |
+| Unity                                                     |                       |                            | General purpose engine. Various VN engines are available.                                                        |
+| YU-RIS                                                    | *free*                |                            | [Homepage](https://yu-ris.net/)                                                                                  |
