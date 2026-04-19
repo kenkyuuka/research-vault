@@ -55,11 +55,11 @@ The overall layout is:
 For embedded/standalone archives, the file data begins immediately after the index. For standalone archives with a separate `.ext` file, the data starts at offset 0 in the `.dat` file.
 ### Header
 
-| Offset | Size/Type  | Field                                     |     |
-| ------ | ---------- | ----------------------------------------- | --- |
-| 0x00   | 2 (str)    | magic: `vf`                               |     |
-| 0x02   | 4 (uint32) | version: e.g. `102`                       |     |
-| 0x06   | 4 (uint32) | num_files: number of files in the archive |     |
+| Offset | Size/Type  | Field                                     |
+| ------ | ---------- | ----------------------------------------- |
+| 0x00   | 2 (str)    | magic: `vf`                               |
+| 0x02   | 4 (uint32) | version: e.g. `102`                       |
+| 0x06   | 4 (uint32) | num_files: number of files in the archive |
 
 v102 may be the only archive version that exists. I tested generating a game with LiveNovel ver.03.12.08 (the earliest version I could readily lay hands on, 2 months after the initial release) and it produced a v102 archive.
 ### Filenames
