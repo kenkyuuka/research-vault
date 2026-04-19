@@ -66,7 +66,7 @@ For embedded/standalone archives, the file data begins immediately after the ind
 | Offset | Size/Type  | Field                                       |
 | ------ | ---------- | ------------------------------------------- |
 | 0x00   | 2 (str)    | magic: `vf`                                 |
-| 0x02   | 4 (uint32) | version: `100`, `101`, `102`, ...           |
+| 0x02   | 4 (uint32) | version: e.g. `102`                         |
 | 0x06   | 4 (uint32) | entry_count: number of files in the archive |
 
 ### Filenames
@@ -82,7 +82,7 @@ Directory separators are backslashes (`\`). A single PRNG instance (seeded with 
 
 ### Data offsets
 
-This section contains `entry_count` records of length 8 (int64). The extra record marks the end of the last file's data, allowing file sizes to be computed as `offset[i+1] - offset[i]`.
+This section contains `entry_count + 1` records of length 8 (int64). The extra record marks the end of the last file's data, allowing file sizes to be computed as `offset[i+1] - offset[i]`.
 
 Each raw offset value is XORed with the PRNG output for decryption. The PRNG is reset to state 0 before reading offsets. The 32-bit PRNG output must be sign-extended to 64 bits before XORing with the 64-bit offset value. Treating it as unsigned produces incorrect results for offsets where the PRNG output has bit 31 set.
 
@@ -90,14 +90,14 @@ For embedded archives, the offsets are relative to the `base_offset`. Otherwise,
 
 ### Flags
 
-`entry_count` single-byte bitfields:
+`entry_count` single-byte (uint8) values:
 
-| bit | meaning                  |
-| --- | ------------------------ |
-| 0   | compressed (with zlib)   |
-| 1   | uncompressed             |
-| 2   | scrambled                |
-| 3   | scrambled and compressed |
+| value | meaning                  |
+| ----- | ------------------------ |
+| 0     | compressed (with zlib)   |
+| 1     | uncompressed             |
+| 2     | scrambled                |
+| 3     | scrambled and compressed |
 
 ### Timestamps
 
@@ -109,7 +109,7 @@ For embedded archives, the offsets are relative to the `base_offset`. Otherwise,
 
 ### Unknown bytes
 
-`entry_count` bytes, always 0 in all examined samples. Purpose unknown.
+`entry_count` bytes, always 0 in all examined samples. Purpose unknown. Apparently present in v102 archives only.
 
 ## Encryption
 
