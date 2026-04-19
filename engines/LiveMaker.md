@@ -17,6 +17,8 @@ LiveMaker archives (called 'VF' archives due to their magic bytes) can appear in
 All three configurations share the same index and data format — only the
 location of the index and the base offset for file data differ.
 
+All integers are little-endian.
+
 ## Embedded archives
 
 Archives may be appended to the game's executable. In this case, the last 6 bytes of the file will be the offset of the archive followed by `lv`.
@@ -86,7 +88,7 @@ This section contains `entry_count + 1` records of length 8 (int64). The extra r
 
 Each raw offset value is XORed with the PRNG output for decryption. The PRNG is reset to state 0 before reading offsets. The 32-bit PRNG output must be sign-extended to 64 bits before XORing with the 64-bit offset value. Treating it as unsigned produces incorrect results for offsets where the PRNG output has bit 31 set.
 
-For embedded archives, the offsets are relative to the `base_offset`. Otherwise, they are absolute offsets into the `.dat` file or, for multi-file archives, into the concatenated data stream.
+For embedded archives, the offsets are relative to the `base_offset`. Otherwise, they are absolute offsets into the `.dat` file or, for multi-file archives, into the concatenated data stream (`game.dat + game.001 + game.002 + ...`).
 
 ### Flags
 
@@ -101,7 +103,16 @@ For embedded archives, the offsets are relative to the `base_offset`. Otherwise,
 
 ### Timestamps
 
-`entry_count` records, 4 bytes (uint32) each, representing a Unix timestamp.
+`entry_count` records, 4 bytes each, representing a DOS date/time.
+
+| Bits  | Field       | Range                                    |
+| ----- | ----------- | ---------------------------------------- |
+| 31-25 | year - 1980 | 0-127 (1980-2107)                        |
+| 24-21 | month       | 1-12                                     |
+| 20-16 | day         | 1-31                                     |
+| 15-11 | hour        | 0-23                                     |
+| 10-5  | minute      | 0-59                                     |
+| 4-0   | seconds / 2 | 0-29 (0-58 seconds, 2-second resolution) |
 
 ### CRC-32 hashes
 
@@ -245,9 +256,9 @@ for i in range(count - 1):
     order.pop(n)
 
 sequence[order[0]] = count - 1  # last remaining element
-```
 
-`sequence[j]` gives the position in the output where chunk `j` from the input should be placed. The chunks are then read from the scrambled data in input order and written to their designated output positions.
+output = [chunks[sequence[k]] for k in range(len(sequence))]
+```
 
 For flag 3 (scrambled + compressed), unscramble first, then decompress.
 
