@@ -44,19 +44,19 @@ The overall layout is:
 ```
 +-------------------------------------------------------+
 | Header (10 bytes)                                     |
-|   "vf" | version (4) | entry_count (4)                |
+|   "vf" | version (4) | num_files (4)                |
 +-------------------------------------------------------+
-| Names: entry_count x [name_length (4) | name_bytes]   |
+| Names: num_files x [name_length (4) | name_bytes]   |
 +-------------------------------------------------------+
-| Offsets: (entry_count+1) x int64                      |
+| Offsets: (num_files+1) x int64                      |
 +-------------------------------------------------------+
-| Flags: entry_count x uint8                            |
+| Flags: num_files x uint8                            |
 +-------------------------------------------------------+
-| Timestamps: entry_count x uint32                      |
+| Timestamps: num_files x uint32                      |
 +-------------------------------------------------------+
-| CRCs: entry_count x uint32                            |
+| CRCs: num_files x uint32                            |
 +-------------------------------------------------------+
-| Unknown: entry_count x uint8 (v102+ only)             |
+| Unknown: num_files x uint8 (v102+ only)             |
 +-------------------------------------------------------+
 | File data begins here                                 |
 +-------------------------------------------------------+
@@ -69,11 +69,11 @@ For embedded/standalone archives, the file data begins immediately after the ind
 | ------ | ---------- | ------------------------------------------- |
 | 0x00   | 2 (str)    | magic: `vf`                                 |
 | 0x02   | 4 (uint32) | version: e.g. `102`                         |
-| 0x06   | 4 (uint32) | entry_count: number of files in the archive |
+| 0x06   | 4 (uint32) | num_files: number of files in the archive |
 
 ### Filenames
 
-For each of the `entry_count` files, the filename is stored in length-prefixed (uint32) Shift-JIS (encrypted). Each entry looks like:
+For each of the `num_files` files, the filename is stored in length-prefixed (uint32) Shift-JIS (encrypted). Each record looks like:
 
 | Offset | Size/Type           | Field          |
 | ------ | ------------------- | -------------- |
@@ -84,7 +84,7 @@ Directory separators are backslashes (`\`). A single PRNG instance (seeded with 
 
 ### Data offsets
 
-This section contains `entry_count + 1` records of length 8 (int64). The extra record marks the end of the last file's data, allowing file sizes to be computed as `offset[i+1] - offset[i]`.
+This section contains `num_files + 1` records of length 8 (int64). The extra record marks the end of the last file's data, allowing file sizes to be computed as `offset[i+1] - offset[i]`.
 
 Each raw offset value is XORed with the PRNG output for decryption. The PRNG is reset to state 0 before reading offsets. The 32-bit PRNG output must be sign-extended to 64 bits before XORing with the 64-bit offset value. Treating it as unsigned produces incorrect results for offsets where the PRNG output has bit 31 set.
 
@@ -92,7 +92,7 @@ For embedded archives, the offsets are relative to the `base_offset`. Otherwise,
 
 ### Flags
 
-`entry_count` single-byte (uint8) values:
+`num_files` single-byte (uint8) values:
 
 | value | meaning                  |
 | ----- | ------------------------ |
@@ -103,7 +103,7 @@ For embedded archives, the offsets are relative to the `base_offset`. Otherwise,
 
 ### Timestamps
 
-`entry_count` records, 4 bytes each, representing a DOS date/time.
+`num_files` records, 4 bytes each, representing a DOS date/time.
 
 | Bits  | Field       | Range                                    |
 | ----- | ----------- | ---------------------------------------- |
@@ -116,11 +116,11 @@ For embedded archives, the offsets are relative to the `base_offset`. Otherwise,
 
 ### CRC-32 hashes
 
-`entry_count` records, 4 bytes (uint32) each. Standard CRC-32 of the raw stored data (i.e. the compressed/scrambled bytes as they appear in the archive, not the decompressed content).
+`num_files` records, 4 bytes (uint32) each. Standard CRC-32 of the raw stored data (i.e. the compressed/scrambled bytes as they appear in the archive, not the decompressed content).
 
 ### Unknown bytes
 
-`entry_count` bytes, always 0 in all examined samples. Purpose unknown. Apparently present in v102 archives only.
+`num_files` bytes, always 0 in all examined samples. Purpose unknown. Apparently present in v102 archives only.
 
 ## Encryption
 
@@ -139,17 +139,17 @@ Each byte of each file name is XORed with the low byte of the PRNG output:
 
 ```python
 state = 0
-for each entry:
+for each record:
     for i in range(name_length):
         state = next(state)
         name_bytes[i] ^= state & 0xFF
 ```
 
-The PRNG state carries across entries. It is not reset between file names.
+The PRNG state carries across records. It is not reset between file names.
 
 #### Example
 
-Archive: `game.exe`, base offset `0x1E2C00`, version 102, 2666 entries.
+Archive: `game.exe`, base offset `0x1E2C00`, version 102, 2666 files.
 
 First file name decryption (`00000001.lsb`, 12 bytes):
 
@@ -168,7 +168,7 @@ Each 8-byte offset is XORed with the sign-extended PRNG output:
 
 ```python
 state = 0
-for i in range(entry_count + 1):
+for i in range(num_files + 1):
     state = next(state)
     raw_offset = read_int64()
     key = sign_extend_32_to_64(state)
@@ -183,7 +183,7 @@ Compression is standard zlib. Compress data before computing the CRC-32.
 
 ## Scrambling (flags 2 and 3)
 
-Scrambled entries have their data divided into fixed-size chunks that are reordered using a deterministic PRNG. An 8-byte header precedes the scrambled data:
+Scrambled files have their data divided into fixed-size chunks that are reordered using a deterministic PRNG. An 8-byte header precedes the scrambled data:
 
 | Offset | Size/Type  | Field      |
 | ------ | ---------- | ---------- |
@@ -192,7 +192,7 @@ Scrambled entries have their data divided into fixed-size chunks that are reorde
 
 The PRNG is seeded with `raw_seed ^ 0xF8EA`.
 
-The data following this header (total length = entry size - 8) is divided into chunks of the specified size (the last chunk may be smaller). These chunks are then reassembled in an order determined by the TpScramble PRNG.
+The data following this header (up to the next offset listed in the offsets section) is divided into chunks of the specified size (the last chunk may be smaller). These chunks are then reassembled in an order determined by the TpScramble PRNG.
 
 ### TpScramble PRNG
 
