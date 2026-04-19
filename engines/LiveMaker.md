@@ -289,3 +289,10 @@ The `.gal` files use LiveMaker's proprietary image format, identified by the mag
 - GARbro: `ArcFormats/LiveMaker/`
 - crass: `cui/LiveMaker/LiveMaker.cpp`
 - LiveMaker official site: https://livemaker.net/
+
+# Games
+
+- [Otou-san no Kodane de Haramasete!](https://vndb.org/v19846) by Blue Devil (2016-08-14)
+	- v102, embedded archive
+- [TS Mahou Shoujo Nao!](https://vndb.org/v15223) by Crooked Navel (2014-05-09)
+	- v102, multi-part archive
