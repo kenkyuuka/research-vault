@@ -290,6 +290,10 @@ The `.gal` files use LiveMaker's proprietary image format, identified by the mag
 - crass: `cui/LiveMaker/LiveMaker.cpp`
 - LiveMaker official site: https://livemaker.net/
 
+# Open questions
+
+- All examined files used v102 archives. The format of other versions has not been confirmed, and it is not known when new versions came into use, or how many different versions exist.
+- The [Unknown bytes](#Unknown%20bytes) section, obviously, is not yet understood.
 # Games
 
 - [Otou-san no Kodane de Haramasete!](https://vndb.org/v19846) by Blue Devil (2016-08-14)
