@@ -41,15 +41,15 @@ The index to VF archives may appear at the beginning of the archive, for embedde
 
 The overall layout is:
 
-| Header (10 bytes) "vf" \| version (4) \| num_files (4) |
-| ------------------------------------------------------ |
-| Names: num_files x [name_length (4) \| name_bytes]     |
-| Offsets: (num_files+1) x int64                         |
-| Flags: num_files x uint8                               |
-| Timestamps: num_files x uint32                         |
-| CRCs: num_files x uint32                               |
-| Unknown: num_files x uint8 (v102+ only)                |
-| File data begins here                                  |
+| Header (10 bytes) "vf" \| version (4) \| `num_files` (4) |
+| -------------------------------------------------------- |
+| Names: `num_files` x [`name_length` (4) \| `name_bytes`] |
+| Offsets: (`num_files + 1`) x int64                       |
+| Flags: `num_files` x uint8                               |
+| Timestamps: `num_files` x uint32                         |
+| CRCs: `num_files` x uint32                               |
+| Unknown: `num_files` x uint8                             |
+| File data begins here                                    |
 
 For embedded/standalone archives, the file data begins immediately after the index. For standalone archives with a separate `.ext` file, the data starts at offset 0 in the `.dat` file.
 ### Header
