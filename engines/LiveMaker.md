@@ -41,8 +41,9 @@ The index to VF archives may appear at the beginning of the archive, for embedde
 
 The overall layout is:
 
-| Header (10 bytes) "vf" \| version (4) \| `num_files` (4) |
+| Beginning of index                                       |
 | -------------------------------------------------------- |
+| Header (10 bytes) "vf" \| version (4) \| `num_files` (4) |
 | Names: `num_files` x [`name_length` (4) \| `name_bytes`] |
 | Offsets: (`num_files + 1`) x int64                       |
 | Flags: `num_files` x uint8                               |
