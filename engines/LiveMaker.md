@@ -1,4 +1,4 @@
-[LiveMaker](https://livemaker.net/) is a free visual novel engine by [HUMAN BALANCE](https://humanbalance.net/).
+[LiveMaker](https://livemaker.net/) is a free visual novel engine released 2003-09-26 (according to [the news post](https://web.archive.org/web/20031210202847fw_/http://humanbalance.net/live/news/news030926.html); the [history.txt](https://web.archive.org/web/20031215133124fw_/http://humanbalance.net/live/files/history.txt) file places the first release date as 2003-09-22) by [HUMAN BALANCE](https://humanbalance.net/).
 
 # Identifying
 
@@ -41,26 +41,15 @@ The index to VF archives may appear at the beginning of the archive, for embedde
 
 The overall layout is:
 
-```
-+-------------------------------------------------------+
-| Header (10 bytes)                                     |
-|   "vf" | version (4) | num_files (4)                |
-+-------------------------------------------------------+
-| Names: num_files x [name_length (4) | name_bytes]   |
-+-------------------------------------------------------+
-| Offsets: (num_files+1) x int64                      |
-+-------------------------------------------------------+
-| Flags: num_files x uint8                            |
-+-------------------------------------------------------+
-| Timestamps: num_files x uint32                      |
-+-------------------------------------------------------+
-| CRCs: num_files x uint32                            |
-+-------------------------------------------------------+
-| Unknown: num_files x uint8 (v102+ only)             |
-+-------------------------------------------------------+
-| File data begins here                                 |
-+-------------------------------------------------------+
-```
+| Header (10 bytes) "vf" \| version (4) \| num_files (4) |
+| ------------------------------------------------------ |
+| Names: num_files x [name_length (4) \| name_bytes]     |
+| Offsets: (num_files+1) x int64                         |
+| Flags: num_files x uint8                               |
+| Timestamps: num_files x uint32                         |
+| CRCs: num_files x uint32                               |
+| Unknown: num_files x uint8 (v102+ only)                |
+| File data begins here                                  |
 
 For embedded/standalone archives, the file data begins immediately after the index. For standalone archives with a separate `.ext` file, the data starts at offset 0 in the `.dat` file.
 ### Header
@@ -70,7 +59,7 @@ For embedded/standalone archives, the file data begins immediately after the ind
 | 0x00   | 2 (str)    | magic: `vf`                                 |
 | 0x02   | 4 (uint32) | version: e.g. `102`                         |
 | 0x06   | 4 (uint32) | num_files: number of files in the archive |
-
+v102 may be the only archive version that exists. I tested generating a game with LiveNovel ver.03.12.08 (the earliest version I could readily lay hands on, 2 months after the initial release) and it produced a v102 archive.
 ### Filenames
 
 For each of the `num_files` files, the filename is stored in length-prefixed (uint32) Shift-JIS (encrypted). Each record looks like:
@@ -120,7 +109,7 @@ For embedded archives, the offsets are relative to the `base_offset`. Otherwise,
 
 ### Unknown bytes
 
-`num_files` bytes, always 0 in all examined samples. Purpose unknown. Apparently present in v102 archives only.
+`num_files` bytes, always 0 in all examined samples. Purpose unknown.
 
 ## Encryption
 
@@ -292,11 +281,12 @@ The `.gal` files use LiveMaker's proprietary image format, identified by the mag
 
 # Open questions
 
-- All examined files used v102 archives. The format of other versions has not been confirmed, and it is not known when new versions came into use, or how many different versions exist.
 - The [Unknown bytes](#Unknown%20bytes) section, obviously, is not yet understood.
-# Games
+# Game samples examined
 
-- [Otou-san no Kodane de Haramasete!](https://vndb.org/v19846) by Blue Devil (2016-08-14)
-	- v102, embedded archive
+- [Hare Doki Doki Bunkasai](https://vndb.org/v10728) by EAG (2005-11)
+	- embedded archive
 - [TS Mahou Shoujo Nao!](https://vndb.org/v15223) by Crooked Navel (2014-05-09)
-	- v102, multi-part archive
+	- multi-part archive
+- [Otou-san no Kodane de Haramasete!](https://vndb.org/v19846) by Blue Devil (2016-08-14)
+	- embedded archive
