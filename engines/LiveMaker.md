@@ -14,8 +14,7 @@ LiveMaker archives (called 'VF' archives due to their magic bytes) can appear in
 | Standalone    | `game.dat`                                            | Data file with the index at the beginning, or with a separate `game.ext` index file.                                    |
 | Multi-part    | `game.dat` + `game.ext` + `game.001`, `game.002`, ... | Index in `.ext`, data spanning `.dat` and numbered overflow parts. Used when the total data exceeds single-file limits. |
 
-All three configurations share the same index and data format — only the
-location of the index and the base offset for file data differ.
+All three configurations share the same index and data format. Only the location of the index and the base offset for file data differ.
 
 All integers are little-endian.
 
@@ -255,8 +254,7 @@ For flag 3 (scrambled + compressed), unscramble first, then decompress.
 
 # File Types
 
-LiveMaker archives contain several engine-specific file types alongside
-standard formats:
+LiveMaker archives contain several engine-specific file types alongside standard formats:
 
 | Extension | Description |
 |-----------|-------------|
@@ -287,8 +285,5 @@ The `.gal` files use LiveMaker's proprietary image format, identified by the mag
 # Game samples examined
 
 - [Hare Doki Doki Bunkasai](https://vndb.org/v10728) by EAG (2005-11)
-	- embedded archive
 - [TS Mahou Shoujo Nao!](https://vndb.org/v15223) by Crooked Navel (2014-05-09)
-	- multi-part archive
 - [Otou-san no Kodane de Haramasete!](https://vndb.org/v19846) by Blue Devil (2016-08-14)
-	- embedded archive
