@@ -33,7 +33,7 @@ Archives may be appended to the game's executable. In this case, the last 6 byte
 +---------------------------+ <-- EOF
 ```
 
-Since the VF archive is simply appended to the executable, the data can be modified by truncating the executable at `base_offset` and appending a new archive followed by the 6-byte trailer.
+Since the VF archive is simply appended to the executable, the data can be modified by truncating the executable after the PE section (i.e. at `base_offset`) and appending a new archive followed by the 6-byte trailer.
 ## Index
 
 The index to VF archives may appear at the beginning of the archive, for embedded and standalone archives, or in a separate `game.ext` file. The index consists of a header followed by several sections.
@@ -284,6 +284,6 @@ The `.gal` files use LiveMaker's proprietary image format, identified by the mag
 - The [Unknown bytes](#Unknown%20bytes) section, obviously, is not yet understood.
 # Game samples examined
 
-- [Hare Doki Doki Bunkasai](https://vndb.org/v10728) by EAG (2005-11)
+- [Hare Doki Doki Bunkasai](https://vndb.org/v10728) by EAG (2005-11) ([Download](https://archive.org/details/haredoki))
 - [TS Mahou Shoujo Nao!](https://vndb.org/v15223) by Crooked Navel (2014-05-09)
-- [Otou-san no Kodane de Haramasete!](https://vndb.org/v19846) by Blue Devil (2016-08-14)
+- [Otou-san no Kodane de Haramasete!](https://vndb.org/v19846) by Blue Devil (2016-08-14) ([Download trial](https://archive.org/details/bldv-1021-trial))
