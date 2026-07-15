@@ -4,7 +4,7 @@ KiriKiri is used in thousands of games. Assets are stored in XP3 archives, and s
 
 # Identifying
 
-Game data is usually stored in `.xp3` archives, though it may be embedded in the executable as well. [TyranoBuilder](engines/TyranoBuilder.md) games also use `.xp3` archives.
+Game data is usually stored in `.xp3` archives, though it may be embedded in the executable as well. [TyranoBuilder](TyranoBuilder.md) games also use `.xp3` archives.
 
 # XP3 archives
 
