@@ -6,6 +6,6 @@
 
 # Associated file formats
 
-- [[../file-formats/LiveMaker/VF archive|VF archive]]
-- [[../file-formats/LiveMaker/Gale image|Gale image]]
+- [[../file-formats/LiveMaker/VF archive.md|VF archive]]
+- [[../file-formats/LiveMaker/Gale image.md|Gale image]]
 

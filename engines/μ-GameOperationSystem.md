@@ -1,3 +1,3 @@
 # Associated file formats
 
-- [[../file-formats/μ-GameOperationSystem/DET archives|DET archives]]
+- [[DET archive|DET archive]]
