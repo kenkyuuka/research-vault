@@ -1,3 +1,3 @@
 # Associated file formats
 
-- [DET archive](/file-formats/μ-GameOperationSystem/DET archive.md)
+- [DET archive](file-formats/μ-GameOperationSystem/DET%20archive.md)
