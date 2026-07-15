@@ -1,0 +1,1 @@
+These images (extension `.gal`) are LiveMaker's proprietary image format, identified by the magic bytes `Gale` (`0x47 0x61 0x6C 0x65`) followed by a 3-digit ASCII version number (e.g. `Gale105`, `Gale106`, `Gale107`).
